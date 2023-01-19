@@ -15,9 +15,11 @@
 #define dataPin  D0
 #define clockPin D1
 
+
 #include <ESP8266WiFi.h>
 #include <BlynkSimpleEsp8266.h>
 #include <SHT1x.h>
+
 
 char auth[] = BLYNK_AUTH_TOKEN;
 char ssid[] = "OPPO 57";
@@ -38,11 +40,11 @@ int tempmin=0;
 int humimax=0;
 int humimin=0;
 
-float humidityOpen = 85;
-float humidityClose = 90;
+float humidityOpen = 50;
+float humidityClose = 70;
 
-float TempOpen = 65;
-float TempClose = 70;
+float TempOpen = 25;
+float TempClose = 27;
 
 
 SHT1x sht1x(dataPin, clockPin);
@@ -120,9 +122,7 @@ void AutoAction()
       pump_1 = false;
       pump_2 = false;
       
-      
-      
-      
+           
       Blynk.virtualWrite(V0,0);  // Turn the widget attached to V1 On
       Blynk.virtualWrite(V1,0);  // Turn the widget attached to V2 On
       
@@ -134,8 +134,8 @@ void AutoAction()
       digitalWrite(RELAY_1, HIGH);
       digitalWrite(RELAY_2, HIGH);
 
-      pump_1 = false;
-      pump_2 = false;
+      pump_1 = true;
+      pump_2 = true;
       Blynk.virtualWrite(V0,1);  // Turn the widget attached to V1 off
       Blynk.virtualWrite(V1,1);  // Turn the widget attached to V2 off
     }
@@ -252,6 +252,7 @@ void Sensor()
   
 }
 
+
 void setup()
 {
   Serial.begin(115200);
@@ -266,6 +267,8 @@ void setup()
   digitalWrite(RELAY_3, HIGH);
   digitalWrite(RELAY_4, HIGH); 
 
+  
+  
   WiFi.begin(ssid, pass); //เชื่อมต่อ WiFi
   while (WiFi.status() != WL_CONNECTED)
   {
